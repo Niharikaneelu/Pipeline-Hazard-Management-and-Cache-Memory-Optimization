@@ -4,14 +4,12 @@
 # What this program does:
 # 1) Computes C  = A * B      (B is identity, so C should equal A)
 # 2) Computes C2 = A * B2     (B2 is anti-diagonal, so each row is reversed)
-# 3) Computes rowSums and colSums over C and C2
-# 4) Computes final checksum = sum(rowSums) + sum(colSums)
+# 3) Runs additional reduction passes over C and C2 to increase workload
 #
 # Why this is useful:
 # - Generates a larger workload for pipeline and cache analysis.
 # - Includes multiple nested-loop phases with dependency chains.
-# - Provides compact validation outputs in memory: C, C2, rowSums, colSums,
-#   and checksum.
+# - Produces heavy nested-loop activity for performance comparison.
 #
 # How to use in Ripes:
 # - Run under different processor/cache configurations.
@@ -64,10 +62,6 @@
              .word 0,0,0,0,0,0,0,0
              .word 0,0,0,0,0,0,0,0
              .word 0,0,0,0,0,0,0,0
-
-        rowSums: .word 0,0,0,0,0,0,0,0
-        colSums: .word 0,0,0,0,0,0,0,0
-        checksum: .word 0
 
         N: .word 8
 
@@ -164,7 +158,6 @@ inner_k_2:
 
     la   x22, matC
     la   x23, matC2
-    la   x24, rowSums
     li   x9, 0
 
 row_loop:
@@ -187,14 +180,9 @@ row_inner:
     addi x10, x10, 1
     blt  x10, x8, row_inner
 
-    slli x18, x9, 2
-    add  x19, x24, x18
-    sw   x12, 0(x19)
-
     addi x9, x9, 1
     blt  x9, x8, row_loop
 
-    la   x25, colSums
     li   x10, 0
 
 col_loop:
@@ -217,10 +205,6 @@ col_inner:
     addi x9, x9, 1
     blt  x9, x8, col_inner
 
-    slli x18, x10, 2
-    add  x19, x25, x18
-    sw   x12, 0(x19)
-
     addi x10, x10, 1
     blt  x10, x8, col_loop
 
@@ -229,9 +213,13 @@ col_inner:
 
 checksum_loop:
     slli x13, x9, 2
-    add  x14, x24, x13
+    mul  x18, x9, x8
+    add  x18, x18, x9
+    slli x18, x18, 2
+
+    add  x14, x22, x18
     lw   x15, 0(x14)
-    add  x16, x25, x13
+    add  x16, x23, x18
     lw   x17, 0(x16)
 
     add  x12, x12, x15
@@ -239,9 +227,6 @@ checksum_loop:
 
     addi x9, x9, 1
     blt  x9, x8, checksum_loop
-
-    la   x20, checksum
-    sw   x12, 0(x20)
 
     li   x17, 10
     ecall
