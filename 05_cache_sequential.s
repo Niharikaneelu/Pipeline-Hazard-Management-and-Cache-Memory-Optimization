@@ -70,5 +70,5 @@ seq_loop2:
     blt  x12, x11, seq_loop2
 
     # ---- End ----
-    li   a7, 10
+    li   x17, 10
     ecall

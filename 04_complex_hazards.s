@@ -112,5 +112,5 @@ done:
     # x7 should be 10 after the loop
 
     # ---- End Program ----
-    li   a7, 10
+    li   x17, 10
     ecall

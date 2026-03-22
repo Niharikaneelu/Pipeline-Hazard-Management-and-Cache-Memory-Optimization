@@ -31,10 +31,12 @@
     # Blocks spaced 128 bytes apart -> all map to same set
     .align 4
     block_A: .word 0x11111111, 0x11111112, 0x11111113, 0x11111114
-             .space 112
+             # patched: expanded .space 112
+             .word 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 
     block_B: .word 0x22222222, 0x22222223, 0x22222224, 0x22222225
-             .space 112
+             # patched: expanded .space 112
+             .word 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 
     block_C: .word 0x33333333, 0x33333334, 0x33333335, 0x33333336
 

@@ -30,13 +30,16 @@
     # All these blocks map to SET 0 in our cache config
     .align 4
     block_A: .word 0xAAAA0001, 0xAAAA0002, 0xAAAA0003, 0xAAAA0004
-             .space 112   # padding to reach 128 bytes total
+             # patched: expanded .space 112
+             .word 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 
     block_B: .word 0xBBBB0001, 0xBBBB0002, 0xBBBB0003, 0xBBBB0004
-             .space 112
+             # patched: expanded .space 112
+             .word 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 
     block_C: .word 0xCCCC0001, 0xCCCC0002, 0xCCCC0003, 0xCCCC0004
-             .space 112
+             # patched: expanded .space 112
+             .word 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 
     block_D: .word 0xDDDD0001, 0xDDDD0002, 0xDDDD0003, 0xDDDD0004
 
