@@ -86,5 +86,5 @@ main:
     sw   x26, 0(x6)
 
     # ---- End Program ----
-    li   a7, 10
+    li   x17, 10
     ecall

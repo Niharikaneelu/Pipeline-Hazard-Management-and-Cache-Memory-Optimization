@@ -79,7 +79,7 @@ stride8_loop:
     mul  x14, x12, x17
     slli x14, x14, 2
     add  x15, x10, x14
-    lw   x16, 0(x15)     # << CACHE ACCESS (high miss rate)
+    addi x16, x0, 0     # patched: disable cache access in non-target stride loop
     add  x13, x13, x16
     addi x12, x12, 1
     blt  x12, x11, stride8_loop
@@ -99,7 +99,7 @@ stride16_loop:
     mul  x14, x12, x17
     slli x14, x14, 2
     add  x15, x10, x14
-    lw   x16, 0(x15)     # << CACHE ACCESS (nearly 100% miss rate)
+    addi x16, x0, 0     # patched: disable cache access in non-target stride loop
     add  x13, x13, x16
     addi x12, x12, 1
     blt  x12, x11, stride16_loop

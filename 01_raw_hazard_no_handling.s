@@ -49,7 +49,7 @@ main:
 
     # ---- Section C: Load-Use RAW Hazard (MEM -> EX) ----
     # Load followed by an instruction that uses the loaded value.
-    # This is a special case — even with forwarding, a 1-cycle
+    # This is a special case ï¿½ even with forwarding, a 1-cycle
     # stall is typically needed (load-use hazard).
     la   x20, result1
     lw   x21, 0(x20)     # x21 = mem[result1] = 25  (data available after MEM)
@@ -72,5 +72,5 @@ main:
     sw   x26, 0(x6)      # Store result4 = 20
 
     # ---- End Program ----
-    li   a7, 10           # ecall exit
+    li   x17, 10          # ecall exit (a7)
     ecall

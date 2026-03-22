@@ -85,5 +85,5 @@ main:
     #   Program 02: NOP stalls waste cycles -> still slow
     #   Program 03: Forwarding eliminates most stalls -> fastest
 
-    li   a7, 10
+    li   x17, 10
     ecall
